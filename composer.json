@@ -1,33 +1,34 @@
 {
-  "name": "tina4stack/tina4php-core",
-  "description": "Tina4 PHP Core Functionality",
-  "license": "MIT",
-  "autoload": {
-    "files": [
-      "Tina4/Functions.php"
+    "name": "farmit/tina4php-core",
+    "description": "Tina4 PHP Core Functionality",
+    "license": "MIT",
+    "autoload": {
+        "files": [
+            "Tina4/Functions.php",
+            "FarmIT/aliases.php"
+        ],
+        "classmap": [
+            "Tina4/"
+        ],
+        "psr-4": {
+            "Tina4\\": [
+                "Tina4/"
+            ]
+        }
+    },
+    "bin": [
+        "bin/tina4",
+        "bin/tina4service"
     ],
-    "classmap": [
-      "Tina4/"
-    ],
-    "psr-4": {
-      "Tina4\\": [
-        "Tina4/"
-      ]
+    "scripts": {
+        "start": "php -S localhost:7147 index.php",
+        "test": "./vendor/bin/phpunit tests -vvv --color --log-junit=tests/junit.xml",
+        "phpmetrics": "phpmetrics --report-html=phpmetrics --junit=tests/junit.xml ./Tina4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "overtrue/phplint": "^2.0",
+        "farmit/tina4php-debug": "^2.0",
+        "phpmetrics/phpmetrics": "^2.8"
     }
-  },
-  "bin": [
-    "bin/tina4",
-    "bin/tina4service"
-  ],
-  "scripts": {
-    "start": "php -S localhost:7147 index.php",
-    "test": "./vendor/bin/phpunit tests -vvv --color --log-junit=tests/junit.xml",
-    "phpmetrics": "phpmetrics --report-html=phpmetrics --junit=tests/junit.xml ./Tina4"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9",
-    "overtrue/phplint": "^2.0",
-    "tina4stack/tina4php-debug": "^2.0",
-    "phpmetrics/phpmetrics": "^2.8"
-  }
 }
