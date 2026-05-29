@@ -45,7 +45,10 @@ if (!defined('FARMIT_EAGER_ALIASES')) {
     foreach (get_declared_classes() as $farmitEagerCls) {
         if (strncmp($farmitEagerCls, 'Tina4\\', 6) === 0) {
             $farmitEagerAlias = 'FarmIT\\' . substr($farmitEagerCls, 6);
-            if (!class_exists($farmitEagerAlias, false)) {
+            if (!class_exists($farmitEagerAlias, false)
+                && !interface_exists($farmitEagerAlias, false)
+                && !trait_exists($farmitEagerAlias, false)
+            ) {
                 class_alias($farmitEagerCls, $farmitEagerAlias);
             }
         }
@@ -54,6 +57,8 @@ if (!defined('FARMIT_EAGER_ALIASES')) {
         $farmitEagerTina4  = 'Tina4\\' . $farmitEagerName;
         $farmitEagerAlias2 = 'FarmIT\\' . $farmitEagerName;
         if (!class_exists($farmitEagerAlias2, false)
+            && !interface_exists($farmitEagerAlias2, false)
+            && !trait_exists($farmitEagerAlias2, false)
             && (class_exists($farmitEagerTina4, true)
                 || interface_exists($farmitEagerTina4, true)
                 || trait_exists($farmitEagerTina4, true))
