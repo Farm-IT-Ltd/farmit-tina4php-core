@@ -21,7 +21,7 @@ if (!defined('FARMIT_ALIASES_REGISTERED')) {
         if (class_exists($tina4Class, true) || interface_exists($tina4Class, true) || trait_exists($tina4Class, true)) {
             class_alias($tina4Class, $class);
         }
-    }, true, true);
+    }, true, false);
 }
 
 //Get the sub folders etc using the data class
@@ -45,9 +45,9 @@ if (!defined('FARMIT_EAGER_ALIASES')) {
     foreach (get_declared_classes() as $farmitEagerCls) {
         if (strncmp($farmitEagerCls, 'Tina4\\', 6) === 0) {
             $farmitEagerAlias = 'FarmIT\\' . substr($farmitEagerCls, 6);
-            if (!class_exists($farmitEagerAlias, false)
-                && !interface_exists($farmitEagerAlias, false)
-                && !trait_exists($farmitEagerAlias, false)
+            if (!class_exists($farmitEagerAlias, true)
+                && !interface_exists($farmitEagerAlias, true)
+                && !trait_exists($farmitEagerAlias, true)
             ) {
                 class_alias($farmitEagerCls, $farmitEagerAlias);
             }
@@ -56,9 +56,9 @@ if (!defined('FARMIT_EAGER_ALIASES')) {
     foreach (['Response', 'Request', 'Route', 'Auth', 'ORM', 'Api', 'Migration', 'FileUpload', 'Debug', 'Container'] as $farmitEagerName) {
         $farmitEagerTina4  = 'Tina4\\' . $farmitEagerName;
         $farmitEagerAlias2 = 'FarmIT\\' . $farmitEagerName;
-        if (!class_exists($farmitEagerAlias2, false)
-            && !interface_exists($farmitEagerAlias2, false)
-            && !trait_exists($farmitEagerAlias2, false)
+        if (!class_exists($farmitEagerAlias2, true)
+            && !interface_exists($farmitEagerAlias2, true)
+            && !trait_exists($farmitEagerAlias2, true)
             && (class_exists($farmitEagerTina4, true)
                 || interface_exists($farmitEagerTina4, true)
                 || trait_exists($farmitEagerTina4, true))
