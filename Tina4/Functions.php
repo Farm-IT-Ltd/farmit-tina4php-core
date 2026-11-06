@@ -11,13 +11,29 @@ namespace Tina4;
 // Lazy bridge: registers FarmIT\ -> Tina4\ alias autoloader so that
 // `use FarmIT\Get;` and similar statements encountered during Initialize()
 // route scanning can resolve. This must run BEFORE (new Data()) below.
+//
+// Exclusion list: names a consuming project has given a real, PSR-4-backed
+// FarmIT\*.php implementation must never be aliased over. Route discovery
+// (tina4DiscoverRoutes, called synchronously from Initialize() below)
+// requires route files directly by path, bypassing autoload entirely. If an
+// earlier route file's `use FarmIT\X;` triggers this lazy autoloader first
+// and Tina4\X already exists, it aliases FarmIT\X to Tina4\X -- then the
+// later direct require of the real FarmIT\X.php fatals with "Cannot
+// redeclare class Tina4\X" (PHP attributes the redeclare to the alias
+// target). Keep this list in sync with any consuming project's own
+// FarmIT-namespace-bridge exclusions.
+$tina4FarmITRealClasses = ['ORM', 'Route', 'Router', 'Get', 'Post', 'Put', 'Delete', 'Any'];
 if (!defined('FARMIT_ALIASES_REGISTERED')) {
     define('FARMIT_ALIASES_REGISTERED', true);
-    spl_autoload_register(function (string $class): void {
+    spl_autoload_register(function (string $class) use ($tina4FarmITRealClasses): void {
         if (strncmp($class, 'FarmIT\\', 7) !== 0) {
             return;
         }
-        $tina4Class = 'Tina4\\' . substr($class, 7);
+        $shortName = substr($class, 7);
+        if (in_array($shortName, $tina4FarmITRealClasses, true)) {
+            return;
+        }
+        $tina4Class = 'Tina4\\' . $shortName;
         if (class_exists($tina4Class, true) || interface_exists($tina4Class, true) || trait_exists($tina4Class, true)) {
             class_alias($tina4Class, $class);
         }
