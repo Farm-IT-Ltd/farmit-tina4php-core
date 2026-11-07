@@ -22,7 +22,7 @@ namespace Tina4;
 // redeclare class Tina4\X" (PHP attributes the redeclare to the alias
 // target). Keep this list in sync with any consuming project's own
 // FarmIT-namespace-bridge exclusions.
-$tina4FarmITRealClasses = ['ORM', 'Route', 'Router', 'Get', 'Post', 'Put', 'Delete', 'Any'];
+$tina4FarmITRealClasses = ['ORM', 'Route', 'Router', 'Get', 'Post', 'Put', 'Delete', 'Any', 'Debug'];
 if (!defined('FARMIT_ALIASES_REGISTERED')) {
     define('FARMIT_ALIASES_REGISTERED', true);
     spl_autoload_register(function (string $class) use ($tina4FarmITRealClasses): void {
